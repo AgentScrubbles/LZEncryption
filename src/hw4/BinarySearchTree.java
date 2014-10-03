@@ -1,7 +1,5 @@
 package hw4;
 
-import java.util.Comparator;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,11 +9,15 @@ import java.util.Map;
  * @author Robert Clabough
  *
  */
-public class BinarySearchTree {
+public class BinarySearchTree implements ADT{
 	private Node root;
 	private Map<String, Node> dictionary;
 	private Short currentIndex;
 	
+	/**
+	 * Initializes dictionary and tree internals.
+	 * Automatically adds lambda as the root
+	 */
 	public BinarySearchTree(){
 		root = new Node(null);
 		dictionary = new HashMap<String, Node>();
@@ -26,6 +28,12 @@ public class BinarySearchTree {
 		dictionary.put(root.key, root);
 	}
 	
+	/**
+	 * Adds item to the tree and dictionary
+	 * @param item
+	 * @return
+	 * 	Key of the item for quick retrieval
+	 */
 	public String add(String item){
 		Node added = add(item, root, null);
 		String key = String.valueOf(currentIndex++);
@@ -34,6 +42,20 @@ public class BinarySearchTree {
 		return key;
 	}
 	
+	
+	/**
+	 * Recursive add operation.  Adds 'item' in the correct
+	 * spot according to BST rules
+	 * @param item
+	 * 		Item to be added
+	 * @param current
+	 * 		Current node to check against (start with root)
+	 * @param parent
+	 * 		Parent of the current node (If new node is added,
+	 * 		current.parent will access parent.
+	 * @return
+	 * 		Node that has been added
+	 */
 	private Node add(String item, Node current, Node parent){
 		if(item == null || item.length() == 0){
 			return current;
@@ -55,11 +77,21 @@ public class BinarySearchTree {
 		return null;
 	}
 
+	/**
+	 * Contains operation
+	 * @param findItem
+	 * 		Item to search for
+	 * @return
+	 * 		True if found, false otherwise
+	 */
 	public boolean contains(String findItem){
 		return findNode(findItem) != null;
 	}
 	
-	
+	/**
+	 * Retrieves they key of the bitstring, reverse lookup of
+	 * value -> key
+	 */
 	public String retrieveKey(String bitString){
 		Node found = findNode(bitString);
 		if(found == null){
@@ -68,6 +100,11 @@ public class BinarySearchTree {
 		return found.key;
 	}
 	
+	/**
+	 * Prefix function, returns the key of the parent of finditem.
+	 * Internally:
+	 * 		Node(findItem).parent.key
+	 */
 	public String prefixKey(String findItem){
 		if(findItem == null || findItem.length() == 0){
 			return "";
@@ -78,10 +115,27 @@ public class BinarySearchTree {
 		return retrieveKey(prefixString);
 	}
 	
+	/**
+	 * Searches for the node itself with string findItem
+	 * @param findItem
+	 * 		bitstring to be looking for
+	 * @return
+	 * 		Node containing bitstring if found, otherwise null
+	 */
 	private Node findNode(String findItem){
 		return findNode(findItem, root);
 	}
 	
+	/**
+	 * Basic recursive operation for contains, retrieve key,
+	 * prefix, and others not involving modifying the ADT.
+	 * @param findItem
+	 * 		Bitstring to search for
+	 * @param current
+	 * 		Current node we are searching at.  
+	 * @return
+	 * 		Node containing found item, otherwise null
+	 */
 	private Node findNode(String findItem, Node current){
 		if(current == null){
 			return null; //Haven't found it
@@ -109,6 +163,15 @@ public class BinarySearchTree {
 		return (c == '1' || c == 'b' || c == 'B');
 	}
 	
+	/**
+	 * Internal node class to keep structure of binary search tree
+	 * @author Robert Clabough
+	 *
+	 *	While working on internals of decode, I will be supressing all unused
+	 *	warnings.  After decode is completed, these unused variables should be
+	 *	used.
+	 */
+	@SuppressWarnings("unused") 
 	private class Node{
 		private String key;
 		private String item;

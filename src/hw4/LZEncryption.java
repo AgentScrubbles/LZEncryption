@@ -1,6 +1,5 @@
 package hw4;
 
-import java.util.Comparator;
 
 public class LZEncryption {
 	
@@ -10,7 +9,7 @@ public class LZEncryption {
 		String retString = "";
 		
 		
-		BinarySearchTree tree = new BinarySearchTree();
+		ADT tree = new BinarySearchTree();
 		for(int i = 0; i < uncompressed.length();){
 			boolean itemAdded = false;
 			boolean endOfString = false;
