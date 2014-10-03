@@ -3,11 +3,11 @@ package hw4;
 
 public class LZEncryption {
 	
-	
+	private static ADT tree;
 	
 	public static String encode(String uncompressed){
 		String retString = "";
-		ADT tree = new BinarySearchTree();
+		tree = new BinarySearchTree();
 		for(int i = 0; i < uncompressed.length();){
 			boolean itemAdded = false;
 			boolean endOfString = false;
@@ -50,5 +50,24 @@ public class LZEncryption {
 			}
 		}
 		return retString;
+	}
+	
+	public static String decode(String compressed){
+
+		
+		if(tree == null) return "";
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for(int i = 0; i < compressed.length(); i++){
+			if(i % 2 == 0){ //Key
+				sb.append(tree.keyLookup(compressed.substring(i, i+1)));
+			} else { //Digit
+				sb.append(compressed.substring(i,i+1));
+			}
+		}
+		
+		return sb.toString();
+		
 	}
 }

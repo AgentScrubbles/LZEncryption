@@ -182,10 +182,10 @@ public class BinarySearchTree implements ADT{
 		private Node left;
 		private Node right;
 		private Node parent;
-		public Node(Node parent){
+		Node(Node parent){
 			this.parent = parent;
 		}
-		public Node(Node parent, String item){
+		Node(Node parent, String item){
 			this.parent = parent;
 			this.item = item;
 		}
