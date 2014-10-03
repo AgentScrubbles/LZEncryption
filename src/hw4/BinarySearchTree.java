@@ -153,6 +153,10 @@ public class BinarySearchTree implements ADT{
 		return null;
 	}
 	
+	@Override
+	public String keyLookup(String key) {
+		return dictionary.get(key).item;
+	}
 	
 	/** Allows languages {0,1}, {a,b}, {A, B} **/
 	/** If there is another language, provide it here **/
@@ -186,4 +190,6 @@ public class BinarySearchTree implements ADT{
 			this.item = item;
 		}
 	}
+
+	
 }

@@ -51,8 +51,10 @@ public class LZEncryption {
 					
 					retString += combined;
 					
-					tree.add(subs);
+					String k = tree.add(subs);
 					
+
+					String original = tree.keyLookup(k);
 					
 					i += subsLength;
 					itemAdded = true;
