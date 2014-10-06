@@ -21,14 +21,15 @@ public class LZEncryption {
 				String subs = uncompressed.substring(i, subEnd);
 				String key = tree.retrieveKey(subs);
 				if(endOfString){
+					/**
+					 * Final condition, either appends a key, or the bit, depending on 
+					 * what is available
+					 */
 					if(key != null){
 						return retString + key; //This string exists, add the key
 					}
 					subs = uncompressed.substring(i, subEnd);
-					String prefixKey = tree.prefixKey(subs);
-					String finalBit = subs.substring(subs.length() - 1, subs.length());
-					String combined = prefixKey + finalBit;
-					return retString + combined; //Key doesn't exist, add the prefix and this bit
+					return retString + build(tree, subs); //Key doesn't exist, add the prefix and this bit
 				}
 				else if(key == null){
 					
@@ -37,14 +38,14 @@ public class LZEncryption {
 					and find the prefix key.  Then append the
 					prefix key to the remaining bit
 					**/
-					String prefixKey = tree.prefixKey(subs);
-					String finalBit = subs.substring(subs.length() - 1, subs.length());
-					String combined = prefixKey + finalBit;
-					retString += combined;
+					retString += build(tree, subs);
 					tree.add(subs);					
 					i += subsLength;
 					itemAdded = true;
 				} else {
+					/**
+					 * Found a key in the tree, we keep going until we don't find a key
+					 */
 					subsLength++;
 				}
 			}
@@ -69,5 +70,24 @@ public class LZEncryption {
 		
 		return sb.toString();
 		
+	}
+	
+	
+	/**
+	 * Takes in the trie and substring where the key was NOT found
+	 * It then finds the prefix string key for subs' prefix.  It then
+	 * appends the final bit onto the key
+	 * @param adt
+	 * 		ADT: tree/(upcoming hashtable)
+	 * @param subs
+	 * 		Substring where prefix exists, but subs doesn't in ADT
+	 * @return
+	 * 		Prefix Key + last bit
+	 */
+	private static String build(ADT adt, String subs){
+		String prefixKey = tree.prefixKey(subs);
+		String finalBit = subs.substring(subs.length() - 1, subs.length());
+		String combined = prefixKey + finalBit;
+		return combined;
 	}
 }
