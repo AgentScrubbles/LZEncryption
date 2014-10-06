@@ -13,6 +13,7 @@ public class BinarySearchTree implements ADT{
 	private Node root;
 	private Map<String, Node> dictionary;
 	private Short currentIndex;
+	private final int MAX_DICTIONARY_SIZE = 10;
 	
 	/**
 	 * Initializes dictionary and tree internals.
@@ -21,6 +22,7 @@ public class BinarySearchTree implements ADT{
 	public BinarySearchTree(){
 		root = new Node(null);
 		dictionary = new HashMap<String, Node>();
+		
 		currentIndex = 0;
 		root.item = "";
 		//Add root to the dictionary
@@ -33,9 +35,14 @@ public class BinarySearchTree implements ADT{
 	 * @param item
 	 * @return
 	 * 	Key of the item for quick retrieval
+	 *   If the added item < 10, or whatever Max_dictionary_size is
 	 */
 	public String add(String item){
 		Node added = add(item, root, null);
+		if(dictionary.size() > MAX_DICTIONARY_SIZE){
+			return "";
+		}
+		
 		String key = String.valueOf(currentIndex++);
 		added.key = key;
 		dictionary.put(key, added);
@@ -196,8 +203,7 @@ public class BinarySearchTree implements ADT{
 	 *	While working on internals of decode, I will be supressing all unused
 	 *	warnings.  After decode is completed, these unused variables should be
 	 *	used.
-	 */
-	@SuppressWarnings("unused") 
+	 */ 
 	private class Node{
 		private String key;
 		private String item;
