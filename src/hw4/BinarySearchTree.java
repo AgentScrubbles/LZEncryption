@@ -42,6 +42,28 @@ public class BinarySearchTree implements ADT{
 		return key;
 	}
 	
+	public String getBitStringFromKey(String key){
+		Node found = dictionary.get(key);
+		if(found == null){
+			return root.item;
+		}
+		return getBitString(found);
+	}
+	
+	/**
+	 * Recurses all the way up the tree to find the bit string
+	 * @param child
+	 * 	Starting child node
+	 * @return
+	 * 		String of all
+	 */
+	private String getBitString(Node child){
+		if(child == root){
+			return child.item;
+		}
+		return child.item + getBitString(child.parent);
+	}
+	
 	
 	/**
 	 * Recursive add operation.  Adds 'item' in the correct

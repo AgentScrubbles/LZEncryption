@@ -61,7 +61,7 @@ public class LZEncryption {
 		
 		for(int i = 0; i < compressed.length(); i++){
 			if(i % 2 == 0){ //Key
-				sb.append(tree.keyLookup(compressed.substring(i, i+1)));
+				sb.append(tree.getBitStringFromKey(compressed.substring(i, i+1)));
 			} else { //Digit
 				sb.append(compressed.substring(i,i+1));
 			}

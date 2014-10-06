@@ -46,4 +46,13 @@ public interface ADT {
 	 * 		Value
 	 */
 	String keyLookup(String key);
+	
+	/**
+	 * Finds the entire bitstring from they key
+	 * @param key
+	 * 		Key to find
+	 * @return
+	 * 		BitString, empty string if not found
+	 */
+	String getBitStringFromKey(String key);
 }
