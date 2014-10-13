@@ -6,19 +6,23 @@ public class LZEncryption {
 	private static ADT tree;
 	
 	public static String encode(String uncompressed){
-		String retString = "";
+		StringBuilder retString = new StringBuilder();
 		tree = new BinarySearchTree();
+		
+		/**
+		 * Runs through every bit of the string, 
+		 */
 		for(int i = 0; i < uncompressed.length();){
 			boolean itemAdded = false;
 			boolean endOfString = false;
 			int subsLength = 1;
 			while(!itemAdded && !endOfString){
-				int subEnd = i + subsLength;
-				if(subEnd  >= uncompressed.length()){
-					endOfString = true;
-					subEnd = uncompressed.length();
+				int subEnd = i + subsLength; //How long the next substring *will be
+				if(subEnd  >= uncompressed.length()){ //Makes sure we aren't stepping out of bounds
+					endOfString = true; //Trigger the endOfString block
+					subEnd = uncompressed.length(); //Max length
 				}
-				String subs = uncompressed.substring(i, subEnd);
+				String subs = uncompressed.substring(i, subEnd); //Substrings now with the 'safe' subEnd item
 				String key = tree.retrieveKey(subs);
 				if(endOfString){
 					/**
@@ -26,10 +30,12 @@ public class LZEncryption {
 					 * what is available
 					 */
 					if(key != null){
-						return retString + key; //This string exists, add the key
+						retString.append(key);
+						return retString.toString(); //This string exists, add the key
 					}
 					subs = uncompressed.substring(i, subEnd);
-					return retString + build(tree, subs); //Key doesn't exist, add the prefix and this bit
+					retString.append(build(tree, subs));
+					return retString.toString(); //Key doesn't exist, add the prefix and this bit
 				}
 				else if(key == null){
 					
@@ -38,7 +44,7 @@ public class LZEncryption {
 					and find the prefix key.  Then append the
 					prefix key to the remaining bit
 					**/
-					retString += build(tree, subs);
+					retString.append(build(tree, subs));
 					tree.add(subs);					
 					i += subsLength;
 					itemAdded = true;
@@ -50,13 +56,13 @@ public class LZEncryption {
 				}
 			}
 		}
-		return retString;
+		return retString.toString();
 	}
 	
 	public static String decode(String compressed){
 
 		
-		if(tree == null) return "";
+		if(tree == null) return ""; //TODO: encode tree / dictionary into string
 		
 		StringBuilder sb = new StringBuilder();
 		
@@ -90,4 +96,42 @@ public class LZEncryption {
 		String combined = prefixKey + finalBit;
 		return combined;
 	}
+
+public static String ToBinary(String str)
+{
+	final char[] masks = {0x8000,0x4000,0x2000,0x1000,0x800,0x400,0x200,0x100,0x80,0x40,0x20,0x10,0x8,0x4,0x2,0x1};
+	String ret = "";
+	
+	for(int i = 0;i < str.length();i++)
+	{
+		char c = str.charAt(i);
+		
+		for(int j = 0;j < 16;j++)
+			if((c & masks[j]) == 0)
+				ret += "0";
+			else
+				ret += "1";
+	}
+	
+	return ret;
+}	
+
+public static String FromBinary(String str)
+{
+	final char[] bits = {0x8000,0x4000,0x2000,0x1000,0x800,0x400,0x200,0x100,0x80,0x40,0x20,0x10,0x8,0x4,0x2,0x1};
+	String ret = "";
+	
+	for(int i = 0;i < str.length();i += 16)
+	{
+		char c = 0x0000;
+		
+		for(int j = 0;j < 16;j++)
+			if(str.charAt(i + j) == '1')
+				c |= bits[j];
+		
+		ret += c;
+	}
+	
+	return ret;
+}
 }
