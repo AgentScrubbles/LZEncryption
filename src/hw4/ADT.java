@@ -55,4 +55,13 @@ public interface ADT {
 	 * 		BitString, empty string if not found
 	 */
 	String getBitStringFromKey(String key);
+	
+	/**
+	 * Returns the 32 bit dictionary stored
+	 * @param key
+	 * @return
+	 */
+	String getDictionary();
+	
+	void buildDictionary(String bitString);
 }

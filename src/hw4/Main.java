@@ -6,7 +6,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		//String input = "aabaaabaaaaaabababbbbaba";
-		String input = "aabababbbababababbaaaabababababa";
+		String input = "Hello, World!";
 		String encrypted = LZEncryption.encode(input);
 		String correctEncrypted = "0a1b1a2a3a3b4b0b8b4";
 		System.out.println(encrypted);

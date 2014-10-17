@@ -30,6 +30,29 @@ public class BinarySearchTree implements ADT{
 		dictionary.put(root.key, root);
 	}
 	
+	
+	public BinarySearchTree(String dictionaryBitString){
+		root = new Node(null);
+		dictionary = new HashMap<String, Node>();
+		
+		currentIndex = 0;
+		root.item = "";
+		
+		root.key = String.valueOf(0);
+		dictionary.put(root.key, root);
+		buildDictionary(dictionaryBitString);
+	}
+	
+	@Override
+	public void buildDictionary(String bitString) {
+		int length = 4;
+		//Take advantage of the in place adding from the add method
+		for(int i = 0; i < bitString.length(); i += length){
+			add(bitString.substring(i, length));
+		}
+		
+	}
+	
 	/**
 	 * Adds item to the tree and dictionary
 	 * @param item
@@ -57,6 +80,18 @@ public class BinarySearchTree implements ADT{
 		return getBitString(found);
 	}
 	
+	public String getDictionary(){
+		StringBuilder sb = new StringBuilder();
+		
+		//Keys are 1 to 10
+		for(int i = 0; i < 10; i++){
+			String item = getBitStringFromKey(String.valueOf(i));
+			
+			sb.append(getBitStringFromKey(String.valueOf(i)));
+		}
+		return sb.toString();
+	}
+	
 	/**
 	 * Recurses all the way up the tree to find the bit string
 	 * @param child
@@ -70,6 +105,7 @@ public class BinarySearchTree implements ADT{
 		}
 		return child.item + getBitString(child.parent);
 	}
+	
 	
 	
 	/**
@@ -218,6 +254,24 @@ public class BinarySearchTree implements ADT{
 			this.item = item;
 		}
 	}
+
+	public static String padLeft(String in, int totalLength, char paddingChar){
+		char[] arr = new char[totalLength];
+		if(in.length() > totalLength){
+			return in;
+		}
+		for(int i = 0; i < totalLength - in.length(); i++){
+			arr[i] = paddingChar;
+		}
+		int j = 0;
+		for(int i = totalLength - in.length(); i < totalLength; i++){
+			arr[i] = in.charAt(j++);
+		}
+		return String.valueOf(arr);
+	}
+
+
+	
 
 	
 }
