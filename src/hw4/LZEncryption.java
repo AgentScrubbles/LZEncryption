@@ -114,7 +114,6 @@ public class LZEncryption {
 	
 	private static String prepareFinalEncoding(String keyEncoded, ADT adt){
 		String dictionary = adt.getDictionary();
-		int l = dictionary.length();
 		String fullyencoded = dictionary + keyEncoded;
 		return fullyencoded;
 	}

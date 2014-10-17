@@ -84,9 +84,7 @@ public class BinarySearchTree implements ADT{
 		StringBuilder sb = new StringBuilder();
 		
 		//Keys are 1 to 10
-		for(int i = 0; i < 10; i++){
-			String item = getBitStringFromKey(String.valueOf(i));
-			
+		for(int i = 0; i < 10; i++){			
 			sb.append(getBitStringFromKey(String.valueOf(i)));
 		}
 		return sb.toString();
