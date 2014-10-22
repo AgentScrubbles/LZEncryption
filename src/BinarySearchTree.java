@@ -1,6 +1,4 @@
-package hw4;
 
-import ADT;
 
 import java.util.HashMap;
 import java.util.Map;

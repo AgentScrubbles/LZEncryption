@@ -1,4 +1,4 @@
-package hw4;
+
 
 public interface ADT {
 	/**
@@ -64,4 +64,11 @@ public interface ADT {
 	String getDictionary();
 	
 	void buildDictionary(String bitString);
+	
+	/**
+	 * Required for implementation, this returns the bit size required for
+	 * each index.  This will be the prefix of the string.
+	 * @return
+	 */
+	int getDictionaryIndexSize();
 }
