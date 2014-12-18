@@ -1,15 +1,18 @@
 
 
-public class LZEncryption {
+public class LZ {
 
-	private static ADT tree;
+	private LZ(){
+		
+	}
+	
+	
 
-	public static String encode(String uncompressed) {
+	public static String encode(String uncompressed, ADT adt) {
 		// Convert uncompressed into a bit string
 		String bitString = ToBinary(uncompressed);
 
 		StringBuilder retString = new StringBuilder();
-		tree = new BinarySearchTree();
 
 		/**
 		 * Runs through every bit of the string,
@@ -30,7 +33,7 @@ public class LZEncryption {
 																// with the
 																// 'safe' subEnd
 																// item
-				String key = tree.retrieveKey(subs);
+				String key = adt.retrieveKey(subs);
 				if (endOfString) {
 					/**
 					 * Final condition, either appends a key, or the bit,
@@ -38,7 +41,7 @@ public class LZEncryption {
 					 */
 					if (key != null) {
 						retString.append(key);
-						return prepareFinalEncoding(retString.toString(), tree);// This
+						return prepareFinalEncoding(retString.toString(), adt);// This
 																			// string
 																			// exists,
 																			// add
@@ -46,8 +49,8 @@ public class LZEncryption {
 																			// key
 					}
 					subs = bitString.substring(i, subEnd);
-					retString.append(build(tree, subs));
-					return prepareFinalEncoding(retString.toString(), tree); 
+					retString.append(build(adt, subs));
+					return prepareFinalEncoding(retString.toString(), adt); 
 						// Key doesn't exist,
 														// add the prefix and
 														// this bit
@@ -58,8 +61,8 @@ public class LZEncryption {
 					 * prefix key. Then append the prefix key to the remaining
 					 * bit
 					 **/
-					retString.append(build(tree, subs));
-					tree.add(subs);
+					retString.append(build(adt, subs));
+					adt.add(subs);
 					i += subsLength;
 					itemAdded = true;
 				} else {
@@ -71,19 +74,19 @@ public class LZEncryption {
 				}
 			}
 		}
-		return prepareFinalEncoding(retString.toString(), tree);
+		return prepareFinalEncoding(retString.toString(), adt);
 	}
 
-	public static String decode(String compressed) {
+	public static String decode(String compressed, ADT adt) {
 
 		int indexSize = Integer.parseInt(compressed.substring(0, 32), 2);
-		tree = new BinarySearchTree(compressed.substring(0, 32), indexSize);
+		adt = new BinarySearchTree(compressed.substring(0, 32), indexSize);
 
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < compressed.length(); i++) {
 			if (i % 2 == 0) { // Key
-				sb.append(tree.getBitStringFromKey(compressed.substring(i,
+				sb.append(adt.getBitStringFromKey(compressed.substring(i,
 						i + 1)));
 			} else { // Digit
 				sb.append(compressed.substring(i, i + 1));
@@ -92,6 +95,17 @@ public class LZEncryption {
 
 		return sb.toString();
 
+	}
+	
+	public static String hash_encode(String uncompressed)
+	{
+		ADT hashVersion = new BinaryHash();
+		return encode(uncompressed, hashVersion);
+	}
+	
+	public static String tree_encode(String uncompressed){
+		ADT treeVersion = new BinarySearchTree();
+		return encode(uncompressed, treeVersion);
 	}
 
 	/**
@@ -106,7 +120,7 @@ public class LZEncryption {
 	 * @return Prefix Key + last bit
 	 */
 	private static String build(ADT adt, String subs) {
-		String prefixKey = ToBinary(tree.prefixKey(subs));
+		String prefixKey = ToBinary(adt.prefixKey(subs));
 		String finalBit = subs.substring(subs.length() - 1, subs.length());
 		String combined = prefixKey + finalBit;
 		return combined;

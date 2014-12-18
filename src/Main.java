@@ -1,32 +1,120 @@
-
-
-
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//String input = "aabaaabaaaaaabababbbbaba";
-		String input = "The world is full of sugar!";
-		String encrypted = LZEncryption.encode(input);
-		String correctEncrypted = "00000000000000000000000000000101000000000000001010100000000000000001101000000000000000001100101000000000000000100000000000000000001110111000000000000001101111000000000000001110010000000000000001101100000000000000001100100001000000000001101001000000000000001110011001000000000001100110000000000000001110101010000000000001101100001000000000001101111000000000000001100110001000000000001110011011010000000001100111000000000000001100001001110000000000100001000000000000";
-		System.out.println(encrypted);
-		System.out.println(correctEncrypted);
-		System.out.println(encrypted.equals(correctEncrypted));
+
+		long systemStartTime = System.currentTimeMillis();
 		
-		String decrypted = LZEncryption.decode(encrypted);
-		System.out.println(input);
-		System.out.println(decrypted);
-		System.out.println(input.equals(decrypted));
+
 		
 		
-		/**
-		String unencrypted = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-		encrypted = LZEncryption.encode(unencrypted);
-		System.out.println(unencrypted);
-		System.out.println(encrypted);
-		
-		**/
+//
+//		ArrayList<Long> treeRunTimes = new ArrayList<Long>();
+//		ArrayList<Long> hashRunTimes = new ArrayList<Long>();
+//
+//		//Scanner keyboard = new Scanner(System.in);
+//		
+//		BufferedReader inputStream;
+//		try {
+//			inputStream = new BufferedReader(new FileReader("src/wordsEn.txt"));
+//		} catch (FileNotFoundException e1) {
+//			System.out.println("Could not open the file");
+//			return;
+//		}
+//
+//		for (int i = 1; i < 2000; i++) {
+//			String str = new RandomString(i).nextString();
+//			treeRunTimes.add(treeTimedTest(str));
+//			hashRunTimes.add(hashTimedTest(str));
+//			
+//		}
+//
+//		try {
+//			inputStream.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		try {
+//			BufferedWriter outputStream = new BufferedWriter(new FileWriter(
+//					"output.csv"));
+//			outputStream.write("Robert Clabough: CS311 LZ Homework part 2");
+//			outputStream.newLine();
+//			outputStream.write("Total time: "
+//					+ (System.currentTimeMillis() - systemStartTime));
+//			outputStream.newLine();
+//
+//			for (int i = 0; i < Math.min(treeRunTimes.size(),
+//					hashRunTimes.size()); i++) {
+//				outputStream.write(treeRunTimes.get(i) + ","
+//						+ hashRunTimes.get(i));
+//				outputStream.newLine();
+//			}
+//			outputStream.close();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
 	}
 
+	public static Long treeTimedTest(String str) {
+		long start = System.currentTimeMillis();
+		LZ.tree_encode(str);
+		return System.currentTimeMillis() - start;
+	}
+
+	public static Long hashTimedTest(String str) {
+		long start = System.currentTimeMillis();
+		LZ.hash_encode(str);
+		return System.currentTimeMillis() - start;
+	}
+
+	/**
+	 * 
+	 * @author by the community wiki at stackoverflow
+	 *         http://stackoverflow.com/questions
+	 *         /41107/how-to-generate-a-random-alpha-numeric-string
+	 *
+	 */
+	private static class RandomString {
+
+		private static final char[] symbols;
+
+		static {
+			StringBuilder tmp = new StringBuilder();
+			for (char ch = '0'; ch <= '9'; ++ch)
+				tmp.append(ch);
+			for (char ch = 'a'; ch <= 'z'; ++ch)
+				tmp.append(ch);
+			symbols = tmp.toString().toCharArray();
+		}
+
+		private final Random random = new Random();
+
+		private final char[] buf;
+
+		public RandomString(int length) {
+			if (length < 1)
+				throw new IllegalArgumentException("length < 1: " + length);
+			buf = new char[length];
+		}
+
+		public String nextString() {
+			for (int idx = 0; idx < buf.length; ++idx)
+				buf[idx] = symbols[random.nextInt(symbols.length)];
+			return new String(buf);
+		}
+	}
 }

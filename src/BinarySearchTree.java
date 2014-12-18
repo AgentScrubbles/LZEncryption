@@ -21,6 +21,7 @@ public class BinarySearchTree implements ADT{
 	 * Automatically adds lambda as the root
 	 */
 	public BinarySearchTree(){
+		root = new Node(null);
 		initialize();
 	}
 	
